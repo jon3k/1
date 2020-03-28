@@ -1,0 +1,594 @@
+#include <iostream>
+#include <fstream>
+#include <windows.h>
+#include <string>
+using namespace std;
+
+struct samochody
+{
+    string marka;
+    string model;
+    int rocznik;
+    float pojemnosc;
+    long przebieg;
+    string skrzynia_biegow;
+};
+
+
+void dodaj_samochod(samochody katalog[], int &rozmiar)
+{
+  cout<<"Marka: ";
+  cin>>katalog[rozmiar].marka;
+  cout<<endl<<"Model: ";
+  cin>>katalog[rozmiar].model;
+  cout<<endl<<"Rocznik: ";
+  cin>>katalog[rozmiar].rocznik;
+  cout<<endl<<"Pojemnosc: ";
+  cin>>katalog[rozmiar].pojemnosc;
+  cout<<endl<<"Przebieg: ";
+  cin>>katalog[rozmiar].przebieg;
+  cout<<endl<<"Skrzynia biegow (Manualna/Automatyczna): ";
+  cin>>katalog[rozmiar].skrzynia_biegow;
+  ++rozmiar;
+}
+
+void usun_samochod(samochody katalog[], int &rozmiar)
+{
+    int usun;
+    cout<<"Ktora pozycje chcesz usunac?: ";
+    cin>>usun;
+    for(int i=0; i<rozmiar; i++)
+    {
+        if(i==(usun-1))
+        {
+            for(int k=i; k<rozmiar; k++)
+            {
+                katalog[k].marka=katalog[i+1].marka;
+                katalog[k].model=katalog[i+1].model;
+                katalog[k].rocznik=katalog[i+1].rocznik;
+                katalog[k].pojemnosc=katalog[i+1].pojemnosc;
+                katalog[k].przebieg=katalog[i+1].przebieg;
+                katalog[k].skrzynia_biegow=katalog[i+1].skrzynia_biegow;
+            }
+        }
+    }
+    rozmiar--;
+}
+
+void wyswietl(samochody katalog[], int &rozmiar)
+{
+    for(int i=0; i<rozmiar; i++)
+    {
+	cout<<"Pozycja "<<i+1<<". "<<"Marka: "<<katalog[i].marka;
+	cout<<endl<<"Model: "<<katalog[i].model;
+	cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+	cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+	cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+	cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+	cout<<endl<<"-"<<endl;
+    }
+}
+
+void wyswietl_warunek(samochody katalog[], int &rozmiar)
+{
+	string pod_wybor;
+	int wybor,warunek;
+	char znak;
+	cout<<"Wedlug czego chcesz wyswietlic?"<<endl;
+	cout<<"a) Rocznik"<<endl;
+	cout<<"b) Pojemnosc"<<endl;
+	cout<<"c) Przebieg"<<endl;
+	cout<<"d) Skrzynia biegow?"<<endl;
+	cout<<"Wybor?: ";
+	cin>>znak;
+	if(znak=='a') wybor=1;
+	if(znak=='b') wybor=2;
+	if(znak=='c') wybor=3;
+	if(znak=='d') wybor=4;
+	switch(wybor)
+	{
+		case 1:
+		{
+			system("cls");
+			cout<<"Rocznik"<<endl;
+			cout<<"Jaki warunek?(mniejsze/rowne/wieksze): ";
+			cin>>pod_wybor;
+			if(pod_wybor=="mniejsze")
+			{
+				cout<<"Mniejsze niz?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].rocznik<warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+					else
+						cout<<"Brak wynikow";
+				}
+			}
+			if(pod_wybor=="rowne")
+			{
+				cout<<"Rowne?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].rocznik==warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+				else
+				{
+					cout<<"Brak wynikow";
+				}
+				}
+			}
+			if(pod_wybor=="wieksze")
+			{
+				cout<<"Wieksze niz?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].rocznik>warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+				else
+				{
+					cout<<"Brak wynikow";
+				}
+				}
+			}
+		}
+		break;
+		case 2:
+		{
+			system("cls");
+			cout<<"Pojemnosc"<<endl;
+			cout<<"Jaki warunek?(mniejsze/rowne/wieksze): ";
+			cin>>pod_wybor;
+			if(pod_wybor=="mniejsze")
+			{
+				cout<<"Mniejsze niz?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].pojemnosc<warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+					else
+						cout<<"Brak wynikow";
+				}
+			}
+			if(pod_wybor=="rowne")
+			{
+				cout<<"Rowne?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].pojemnosc==warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+				else
+				{
+					cout<<"Brak wynikow";
+				}
+				}
+			}
+			if(pod_wybor=="wieksze")
+			{
+				cout<<"Wieksze niz?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].pojemnosc>warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+					else
+					{
+					cout<<"Brak wynikow";
+					}
+				}
+			}
+		}
+		break;
+		case 3:
+		{
+			system("cls");
+			cout<<"Przebieg"<<endl;
+			cout<<"Jaki warunek?(mniejsze/rowne/wieksze): ";
+			cin>>pod_wybor;
+			if(pod_wybor=="mniejsze")
+			{
+				cout<<"Mniejsze niz?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].przebieg<warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+					else
+						cout<<"Brak wynikow";
+				}
+			}
+			if(pod_wybor=="rowne")
+			{
+				cout<<"Rowne?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].przebieg==warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+				else
+				{
+					cout<<"Brak wynikow";
+				}
+				}
+			}
+			if(pod_wybor=="wieksze")
+			{
+				cout<<"Wieksze niz?: ";
+				cin>>warunek;
+				for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].przebieg>warunek)
+					{
+					cout<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+					else
+					{
+					cout<<"Brak wynikow";
+					}
+				}
+			}
+		}
+		break;
+		case 4:
+		{
+			cout<<"Skrzynia biegow"<<endl;
+			cout<<"Jaki warunek?(Manualna/Automatyczna): ";
+			cin>>pod_wybor;
+			for(int i=0;i<rozmiar;i++)
+				{
+					if(katalog[i].skrzynia_biegow==pod_wybor)
+					{
+					cout<<endl<<"Marka: "<<katalog[i].marka;
+					cout<<endl<<"Model: "<<katalog[i].model;
+					cout<<endl<<"Rocznik: "<<katalog[i].rocznik<<"r.";
+					cout<<endl<<"Pojemosc: "<<katalog[i].pojemnosc<<"cm3";
+					cout<<endl<<"Przebieg: "<<katalog[i].przebieg<<"km";
+					cout<<endl<<"Skrzynia biegow: "<<katalog[i].skrzynia_biegow;
+					cout<<endl<<"-";
+					}
+					else
+					{
+						cout<<"Brak wynikow";
+					}
+				}
+		}
+		break;
+	}
+
+}
+
+void modyfikuj(samochody katalog[], int &rozmiar)
+{
+    int wybor;
+    for(int i=0; i<rozmiar; i++)
+    {
+        cout<<i+1<<". "<<katalog[i].marka<<" "<<katalog[i].model<<endl;
+    }
+        cout<<"Ktory samochod chcesz zmodyfikowac?: ";
+        cin>>wybor;
+        cout<<"Marka: ";
+        cin>>katalog[wybor-1].marka;
+        cout<<endl<<"Model: ";
+        cin>>katalog[wybor-1].model;
+        cout<<endl<<"Rocznik: ";
+        cin>>katalog[wybor-1].rocznik;
+        cout<<endl<<"Pojemnosc: ";
+        cin>>katalog[wybor-1].pojemnosc;
+        cout<<endl<<"Przebieg: ";
+        cin>>katalog[wybor-1].przebieg;
+        cout<<endl<<"Skrzynia biegow (Manualna/Automatyczna): ";
+        cin>>katalog[wybor-1].skrzynia_biegow;
+}
+
+void quicksort_rocznik(samochody katalog[], int lewo, int prawo)
+            {
+            int os=katalog[(lewo+prawo)/2].rocznik, l=lewo, p=prawo, x,y,z;
+            string a,b,c;
+            do
+            {
+                while(katalog[l].rocznik<os) l++;
+                while(katalog[p].rocznik>os) p--;
+                if(l<=p)
+                {
+                    x=katalog[l].rocznik;
+                    katalog[l].rocznik=katalog[p].rocznik;
+                    katalog[p].rocznik=x;
+                    a=katalog[l].marka;
+                    katalog[l].marka=katalog[p].marka;
+                    katalog[p].marka=a;
+                    b=katalog[l].model;
+                    katalog[l].model=katalog[p].model;
+                    katalog[p].model=b;
+                    z=katalog[l].przebieg;
+                    katalog[l].przebieg=katalog[p].przebieg;
+                    katalog[p].przebieg=z;
+                    c=katalog[l].skrzynia_biegow;
+                    katalog[l].skrzynia_biegow=katalog[p].skrzynia_biegow;
+                    katalog[p].skrzynia_biegow=c;
+                    y=katalog[l].pojemnosc;
+                    katalog[l].pojemnosc=katalog[p].pojemnosc;
+                    katalog[p].pojemnosc=y;
+                    l++; p--;
+                }
+            }
+            while(l<=p);
+            if (lewo<p) quicksort_rocznik(katalog, 0, p);
+            if (prawo>l) quicksort_rocznik(katalog, l, prawo);
+            }
+
+void quicksort_przebieg(samochody katalog[], int lewo, int prawo)
+            {
+            int os=katalog[(lewo+prawo)/2].przebieg, l=lewo, p=prawo, x,y,z;
+            string a,b,c;
+            do
+            {
+                while(katalog[l].przebieg<os) l++;
+                while(katalog[p].przebieg>os) p--;
+                if(l<=p)
+                {
+                    x=katalog[l].rocznik;
+                    katalog[l].rocznik=katalog[p].rocznik;
+                    katalog[p].rocznik=x;
+                    a=katalog[l].marka;
+                    katalog[l].marka=katalog[p].marka;
+                    katalog[p].marka=a;
+                    b=katalog[l].model;
+                    katalog[l].model=katalog[p].model;
+                    katalog[p].model=b;
+                    z=katalog[l].przebieg;
+                    katalog[l].przebieg=katalog[p].przebieg;
+                    katalog[p].przebieg=z;
+                    c=katalog[l].skrzynia_biegow;
+                    katalog[l].skrzynia_biegow=katalog[p].skrzynia_biegow;
+                    katalog[p].skrzynia_biegow=c;
+                    y=katalog[l].pojemnosc;
+                    katalog[l].pojemnosc=katalog[p].pojemnosc;
+                    katalog[p].pojemnosc=y;
+                    l++; p--;
+                }
+            }
+            while(l<=p);
+            if (lewo<p) quicksort_przebieg(katalog, 0, p);
+            if (prawo>l) quicksort_przebieg(katalog, l, prawo);
+            }
+
+void quicksort_pojemnosc(samochody katalog[], int lewo, int prawo)
+            {
+            int os=katalog[(lewo+prawo)/2].pojemnosc, l=lewo, p=prawo, x,y,z;
+            string a,b,c;
+            do
+            {
+                while(katalog[l].pojemnosc<os) l++;
+                while(katalog[p].pojemnosc>os) p--;
+                if(l<=p)
+                {
+                    x=katalog[l].rocznik;
+                    katalog[l].rocznik=katalog[p].rocznik;
+                    katalog[p].rocznik=x;
+                    a=katalog[l].marka;
+                    katalog[l].marka=katalog[p].marka;
+                    katalog[p].marka=a;
+                    b=katalog[l].model;
+                    katalog[l].model=katalog[p].model;
+                    katalog[p].model=b;
+                    z=katalog[l].przebieg;
+                    katalog[l].przebieg=katalog[p].przebieg;
+                    katalog[p].przebieg=z;
+                    c=katalog[l].skrzynia_biegow;
+                    katalog[l].skrzynia_biegow=katalog[p].skrzynia_biegow;
+                    katalog[p].skrzynia_biegow=c;
+                    y=katalog[l].pojemnosc;
+                    katalog[l].pojemnosc=katalog[p].pojemnosc;
+                    katalog[p].pojemnosc=y;
+                    l++; p--;
+                }
+            }
+            while(l<=p);
+            if (lewo<p) quicksort_pojemnosc(katalog, 0, p);
+            if (prawo>l) quicksort_pojemnosc(katalog, l, prawo);
+            }
+
+void sortuj(samochody katalog[], int &rozmiar)
+{
+    int wybor;
+    cout<<"Wedlug czego chcesz posortowac?: "<<endl;
+    cout<<"1. Rocznik"<<endl;
+    cout<<"2. Pojemnosc (niestety program sie wysypuje)"<<endl;
+    cout<<"3. Przebieg"<<endl;
+    cout<<"Wybor: ";
+    cin>>wybor;
+    switch(wybor)
+    {
+    case 1:
+        {
+           quicksort_rocznik(katalog, 0, rozmiar);
+        }
+        break;
+    case 2:
+        {
+            quicksort_pojemnosc(katalog, 0, rozmiar);
+        }
+        break;
+    case 3:
+        {
+            quicksort_przebieg(katalog, 0, rozmiar);
+        }
+        break;
+    }
+}
+
+int main()
+{
+
+    int rozmiar=0, wybor;
+    string wczyt;
+    samochody katalog[100];
+    ifstream plik("katalog.txt");
+    while(!plik.eof()){
+    plik>>katalog[rozmiar].marka;
+    plik>>katalog[rozmiar].model;
+    plik>>katalog[rozmiar].rocznik;
+    plik>>katalog[rozmiar].pojemnosc;
+    plik>>katalog[rozmiar].przebieg;
+    plik>>katalog[rozmiar].skrzynia_biegow;
+    rozmiar++;
+    }
+    plik.close();
+    rozmiar--;
+    do{
+ 	system("cls");
+ 	cout<<"katalog samochodowy, autor: Jonatan Marchewka";
+ 	cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<"menu"<<endl;
+    cout<<"1. dodaj samochod"<<endl;
+    cout<<"2. usun samochod"<<endl;
+    cout<<"3. wyswietl samochody"<<endl;
+    cout<<"4. wyswietlanie warunkowe"<<endl;
+    cout<<"5. zapisz"<<endl;
+    cout<<"6. zmodyfikuj samochod"<<endl;
+    cout<<"7. sortuj"<<endl;
+    cout<<"8. koniec"<<endl;
+    cout<<"wybierz opcje: ";
+    cin>>wybor;
+    switch(wybor)
+        {
+        case 1:
+            {
+            	system("cls");
+                dodaj_samochod(katalog,rozmiar);
+            }
+            break;
+        case 2:
+            {
+            	system("cls");
+                wyswietl(katalog,rozmiar);
+                usun_samochod(katalog,rozmiar);
+            }
+            break;
+        case 3:
+            {
+            	system("cls");
+                wyswietl(katalog,rozmiar);
+                getchar();
+                getchar();
+                //plik.close();
+            }
+            break;
+		case 4:
+			{
+				system("cls");
+				wyswietl_warunek(katalog,rozmiar);
+				getchar();
+				getchar();
+		   	}
+			break;
+        case 5:
+            {
+                fstream plik("katalog.txt");
+                system("cls");
+                for(int i=0; i<rozmiar; i++)
+                {
+                    plik<<katalog[i].marka<<endl;
+                    plik<<katalog[i].model<<endl;
+                    plik<<katalog[i].rocznik<<endl;
+                    plik<<katalog[i].pojemnosc<<endl;
+                    plik<<katalog[i].przebieg<<endl;
+                    plik<<katalog[i].skrzynia_biegow<<endl;
+
+                }
+                plik.close();
+            }
+            break;
+        case 6:
+            {
+                system("cls");
+                modyfikuj(katalog, rozmiar);
+            }
+            break;
+        case 7:
+            {
+                system("cls");
+                sortuj(katalog, rozmiar);
+            }
+            break;
+        }
+    }while(wybor!=8);
+}
